@@ -2,11 +2,10 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItem, updateQuantity } from "./CartSlice";
 
-const CartItem = ({ onContinueShopping }) => {
+function CartItem({ onContinueShopping }) {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
-  // Calculate total cost of all items
   const calculateTotalAmount = () => {
     return cartItems
       .reduce((total, item) => {
@@ -16,25 +15,16 @@ const CartItem = ({ onContinueShopping }) => {
       .toFixed(2);
   };
 
-  // Calculate subtotal for each item
   const calculateTotalCost = (item) => {
     const price = parseFloat(item.cost.substring(1));
     return (price * item.quantity).toFixed(2);
-  };
-
-  const handleContinueShopping = (e) => {
-    onContinueShopping(e);
-  };
-
-  const handleCheckoutShopping = (e) => {
-    alert("Functionality to be added for future reference");
   };
 
   const handleIncrement = (item) => {
     dispatch(
       updateQuantity({
         name: item.name,
-        amount: item.quantity + 1
+        amount: item.quantity + 1,
       })
     );
   };
@@ -44,7 +34,7 @@ const CartItem = ({ onContinueShopping }) => {
       dispatch(
         updateQuantity({
           name: item.name,
-          amount: item.quantity - 1
+          amount: item.quantity - 1,
         })
       );
     } else {
@@ -56,15 +46,19 @@ const CartItem = ({ onContinueShopping }) => {
     dispatch(removeItem(item.name));
   };
 
+  const handleCheckoutShopping = () => {
+    alert("Functionality to be added for future reference");
+  };
+
   return (
     <div>
-      <h2>Your Shopping Cart</h2>
+      <h2>Shopping Cart</h2>
 
       {cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
         <>
-          <h3>Total Cost: ${calculateTotalAmount()}</h3>
+          <h3>Total Amount: ${calculateTotalAmount()}</h3>
 
           {cartItems.map((item, index) => (
             <div key={index}>
@@ -80,7 +74,7 @@ const CartItem = ({ onContinueShopping }) => {
             </div>
           ))}
 
-          <button onClick={handleContinueShopping}>
+          <button onClick={onContinueShopping}>
             Continue Shopping
           </button>
 
@@ -91,6 +85,6 @@ const CartItem = ({ onContinueShopping }) => {
       )}
     </div>
   );
-};
+}
 
 export default CartItem;
