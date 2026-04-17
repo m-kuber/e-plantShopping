@@ -4,11 +4,10 @@ import CartItem from './CartItem';
 
 // ✅ NEW: Redux imports
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../CartSlice";
+import { addItem } from "./CartSlice";
 
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
-    const [showPlants, setShowPlants] = useState(false);
 
     // ✅ NEW: Redux hooks
     const dispatch = useDispatch();
@@ -51,7 +50,6 @@ function ProductList({ onHomeClick }) {
 
     const handlePlantsClick = (e) => {
         e.preventDefault();
-        setShowPlants(true);
         setShowCart(false);
     };
 
@@ -111,8 +109,6 @@ function ProductList({ onHomeClick }) {
 
             {!showCart ? (
                 <div className="product-grid">
-
-                    {/* ✅ NEW: Render plant categories and items */}
                     {plantsArray.map((category, index) => (
                         <div key={index}>
                             <h2>{category.category}</h2>
@@ -138,7 +134,6 @@ function ProductList({ onHomeClick }) {
                             </div>
                         </div>
                     ))}
-
                 </div>
             ) : (
                 <CartItem onContinueShopping={handleContinueShopping} />
